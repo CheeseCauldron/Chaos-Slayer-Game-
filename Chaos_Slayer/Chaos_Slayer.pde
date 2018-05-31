@@ -17,7 +17,7 @@ int mapX, mapY;
 void setup() {
   screen=1;
   TimerClassSelect = false;
-  Player=loadImage("Archer.PNG");
+  Player=loadImage("Archer.png");
   boss1Attacking = false;
   timerClassSelect=180;
   PlayerWalkTimer=30;
@@ -30,14 +30,14 @@ void setup() {
   fighter =false;
   tank = false;
   archer = false;
-  map = loadImage("Map.JPG");
-  mapIcon=loadImage("MapIcon.PNG");
+  map = loadImage("Map.jpg");
+  mapIcon=loadImage("MapIcon.png");
   boss1Hit=false;
   boss1X=900;
   boss1Y=400;
   boss1Health=85;
   boss1AttackingTimer=15;
-  boss1=loadImage("Boss1.PNG");
+  boss1=loadImage("Boss1.png");
   attack=false;
   size(1400, 800);
 }
@@ -143,7 +143,7 @@ void draw() {
         attack=false;
         boss1Hit=true;
         if(boss1Hit==true){
-          boss1=loadImage("Boss1Hit.PNG");
+          boss1=loadImage("Boss1Hit.png");
           boss1AttackingTimer-=1;
           if(boss1AttackingTimer<1){
             if(boss1AttackingTimer<1 || !(boss1X > PlayerX-25 || boss1X < PlayerX && boss1Y!=PlayerY)) {
@@ -162,7 +162,7 @@ void draw() {
       //SPECIAL ATTACK
     }
     else if(attack==true){
-      boss1=loadImage("Boss1.PNG");
+      boss1=loadImage("Boss1.png");
     }
   }
 
@@ -189,13 +189,13 @@ void playerAction() {
     PlayerX+=10;
     PlayerWalkTimer-=1;
   } else if (!keyPressed) {
-    Player=loadImage("Archer.PNG");
+    Player=loadImage("Archer.png");
   }
 
   if (PlayerWalkTimer<1 && step==true) {
 
     if (archer==true) {
-      Player=loadImage("ArcherWalk1.PNG");
+      Player=loadImage("ArcherWalk1.png");
       step=false;
     } else if (fighter==true) {
     } else if (mage==true) {
@@ -205,7 +205,7 @@ void playerAction() {
   } else if (PlayerWalkTimer<1&&step==false) {
 
     if (archer==true) {
-      Player=loadImage("ArcherWalk2.PNG");
+      Player=loadImage("ArcherWalk2.png");
       step=true;
     } else if (fighter==true) {
     } else if (mage==true) {

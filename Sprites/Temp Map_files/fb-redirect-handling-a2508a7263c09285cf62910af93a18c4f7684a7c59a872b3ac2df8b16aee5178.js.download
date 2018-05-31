@@ -1,1 +1,0 @@
-(function(){var o;window.location.hash&&(o=RegExp("_=_","g"),window.location.hash=window.location.hash.replace(o,""))}).call(this);
