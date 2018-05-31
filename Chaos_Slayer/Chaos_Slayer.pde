@@ -9,10 +9,10 @@ boolean attack;
 boolean mage, fighter, tank, archer;
 boolean TimerClassSelect;
 boolean move, step;
-boolean boss1Attacking,boss1Hit;
+boolean boss1Attacking, boss1Hit,boss1ThrowAttack;
 int timerClassSelect, PlayerWalkTimer;
 int PlayerX, PlayerY, PlayerHealth;
-int boss1X, boss1Y, boss1Attack, boss1Health, boss1AttackingTimer;
+int boss1X, boss1Y, boss1Attack, boss1Health, boss1AttackingTimer,boss1Throw;
 int mapX, mapY;
 void setup() {
   screen=1;
@@ -36,9 +36,10 @@ void setup() {
   boss1X=900;
   boss1Y=400;
   boss1Health=85;
-  boss1AttackingTimer=15;
+  boss1AttackingTimer=30;
   boss1=loadImage("Boss1.png");
   attack=false;
+  boss1ThrowAttack=false;
   size(1400, 800);
 }
 
@@ -124,52 +125,68 @@ void draw() {
   if (boss==1) {
     background(0);
     image(boss1, boss1X, boss1Y);
-    if (PlayerX>boss1X&&boss1AttackingTimer==15) {
+    if (PlayerX>(boss1X+200)&&boss1AttackingTimer==30) {
       boss1X+=5;
     }
-    if (PlayerX<boss1X&&boss1AttackingTimer==15) {
+    if (PlayerX<(boss1X+200)&&boss1AttackingTimer==30) {
       boss1X-=5;
     }
-    if (PlayerY>boss1Y&&boss1AttackingTimer==15) {
+    if (PlayerY>boss1Y&&boss1AttackingTimer==30) {
       boss1Y+=5;
     }
-    if (PlayerY<boss1Y&&boss1AttackingTimer==15) {
+    if (PlayerY<boss1Y&&boss1AttackingTimer==30) {
       boss1Y-=5;
     }
 
-      
 
-      if (boss1AttackingTimer<1 || !(boss1X > PlayerX-25 || boss1X < PlayerX && boss1Y!=PlayerY)&&boss1Hit==false) {
-        attack=false;
-        boss1Hit=true;
-        if(boss1Hit==true){
-          boss1=loadImage("Boss1Hit.png");
-          boss1AttackingTimer-=1;
-          if(boss1AttackingTimer<1){
-            if(boss1AttackingTimer<1 || !(boss1X > PlayerX-25 || boss1X < PlayerX && boss1Y!=PlayerY)) {
-              PlayerHealth-=10;
-            }
-            boss1Hit=false;
-            boss1AttackingTimer=15;
-          }
+
+    if (abs(boss1X+200-PlayerX)<30 && abs(boss1Y-PlayerY) < 30 && boss1Hit==false) {
+      attack=false;
+      boss1Hit=true;
+    }
+    if (boss1Hit==true) {
+      boss1=loadImage("Boss1Hit.png");
+      boss1AttackingTimer-=1;
+      if (boss1AttackingTimer<1) {
+        if (abs(boss1X+200-PlayerX)<30 && abs(boss1Y-PlayerY) < 30) {
+          PlayerHealth-=10;
+        }
+        boss1Hit=false;
+        boss1 = loadImage("Boss1.png");
+        boss1AttackingTimer=30;
       }
     }
-    boss1Attack=int(random(260));
-     if (boss1Attack>1&&boss1Attack<25) {
-      //rock through
-    }
-    if (boss1Attack==200) {
-      //SPECIAL ATTACK
-    }
-    else if(attack==true){
-      boss1=loadImage("Boss1.png");
-    }
   }
+  boss1Attack=int(random(1500));
+  if (boss1Attack>1&&boss1Attack<25) {
+    boss1ThrowAttack=true;
+  }
+  if(boss1ThrowAttack==true){
+    boss1AttackingTimer-=1;
+    boss1=loadImage("Boss1Hit.png");
+  }
+  if (boss1Attack==200) {
+    //SPECIAL ATTACK
+  } else if (attack==true) {
+    boss1=loadImage("Boss1.png");
+  }
+
+
 
   //player Movment
   if (screen==0) {
     playerAction();
     image(Player, PlayerX, PlayerY);
+  }
+  //death
+  if(PlayerHealth<0){
+    screen=0;
+    boss=0;
+    text("You Are Dead",400,400);
+    text("Press F to Pay Respects",400,600);
+    if(keyPressed&&key=='f'||key=='f'){
+      setup();
+    }
   }
 }
 
